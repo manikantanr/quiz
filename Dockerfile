@@ -17,6 +17,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN cd /tmp && curl -O http://download.redis.io/redis-stable.tar.gz && \
     tar xzvf redis-stable.tar.gz && cd redis-stable && make && make install
 
-EXPOSE 6379 8000
+EXPOSE 6379 80
 
 CMD ["/usr/bin/supervisord"]
