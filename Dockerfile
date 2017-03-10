@@ -1,22 +1,22 @@
-FROM ubuntu:16.04
-RUN apt-get update && apt-get install -y supervisor \
-    python-dev python python-pip \
-    python-dev gcc git make \
-    libssl-dev g++ libffi-dev \
-    sqlite build-essential tcl curl wget
+FROM alpine:3.5
 
-RUN mkdir -p /var/log/supervisor
-ENV REDIS_URL redis://localhost:6379/0
+MAINTAINER "Manikantan Ramachandran" <manikantanr@biarca.com>
+
+WORKDIR /app
+
+RUN apk upgrade --update-cache --available
+
+RUN apk add python python-dev musl-dev py-virtualenv libffi-dev \
+    openssl-dev file gcc ca-certificates && rm -rf /var/cache/apk/*
+
+RUN pip install --upgrade pip
+
 COPY . .
 
-RUN pip install --upgrade pip setuptools && pip install -r requirements.txt
+RUN pip install -r /app/requirements.txt
 
-
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-RUN cd /tmp && curl -O http://download.redis.io/redis-stable.tar.gz && \
-    tar xzvf redis-stable.tar.gz && cd redis-stable && make && make install
+# check web scokets work with multi gunicorn workers
+CMD gunicorn -w 3 -b 0.0.0.0:80 -k flask_sockets.worker --pythonpath=/app/ \
+	--access-logfile=- --forwarded-allow-ips="*" quiz:app
 
 EXPOSE 6379 80
-
-CMD ["/usr/bin/supervisord"]
