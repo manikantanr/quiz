@@ -36,3 +36,11 @@ $("#input-form").on("submit", function(event) {
   $("#input-text")[0].value = "";
 });
 
+
+
+$(document).ready(function(){
+  var el = kjua({text: window.location.href,
+                 });
+  $('#qr_code').append(el);
+  $('#ip').text(window.location.href);
+});

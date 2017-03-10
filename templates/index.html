@@ -11,7 +11,8 @@
       <div class="jumbotron">
         <h1>Stackmeet up Realtime Quiz app</h1>
         <hr />
-        <p>This app uses web sockets to perform live updates.</p>
+        <div id='qr_code'></div>
+        <div id='ip'></div>
       </div>
       <form id="input-form" class="form-inline">
         <div class="form-group">
@@ -36,6 +37,7 @@
     </div>
 
     <script type="text/javascript" src="static/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="static/js/kjua-0.1.1.min.js"></script>
     <script type="text/javascript" src="static/js/reconnecting-websocket.min.js"></script>
     <script type="text/javascript" src="static/js/application.js"></script>
   </body>

@@ -7,7 +7,7 @@ import gevent
 from flask import Flask, render_template
 from flask_sockets import Sockets
 
-REDIS_URL = os.environ['REDIS_PORT']
+REDIS_URL = os.getenv('REDIS_PORT',"tcp://localhost:6379")
 REDIS_CHAN = 'chat'
 
 app = Flask(__name__)
